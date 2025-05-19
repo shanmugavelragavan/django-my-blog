@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid py-5">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="text-center fw-bold text-primary">{{ blog_title }}</h2>
+    </div>
+  </div>
+</div>
+
+
+  <div class="row mx-3">
+    {% include 'includes/errors.html' %}
+
+    {% if page_obj %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for post in page_obj %}
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0 hover-shadow transition rounded-4">
+          {% if post.external_img_url or post.formatted_img_url %}
+          <div class="card-img-top position-relative overflow-hidden" style="height: 200px">
+            <img
+              src="{{ post.formatted_img_url|safe }}"
+              class="img-fluid w-100 h-100"
+              alt="{{ post.title }}"
+              style="object-fit: cover"
+              loading="lazy"
+            />
+            <div class="position-absolute top-0 end-0 m-2">
+              <span class="badge bg-primary">{{ post.category.name }}</span>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-truncate">{{ post.title }}</h5>
+            <p class="card-text text-muted flex-grow-1">{{ post.content|truncatechars:100 }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <small class="text-muted">
+                {% if post.created_at %}
+                <i class="bi bi-calendar-date me-1"></i> {{ post.created_at|date:"M d, Y" }}
+                {% endif %}
+              </small>
+              <a href="{% url 'blog:detail' slug=post.slug %}" class="btn btn-sm btn-outline-primary">
+                Read More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="col-12 my-4">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="d-none d-sm-inline">First</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+              <span>Previous</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <span>Next</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+              <span class="d-none d-sm-inline">Last</span>
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="col-12 text-center py-5">
+      <div class="empty-state">
+        <i class="bi bi-journal-x fs-1 text-muted mb-3"></i>
+        <h4 class="text-muted">No Posts Available</h4>
+        <p class="text-muted">Check back later for new content</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

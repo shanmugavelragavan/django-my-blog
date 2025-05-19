@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block content %}
+<section class="container py-5">
+  <!-- Page Header -->
+  <header class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary">About Me</h1>
+    <p class="text-muted fs-5 mt-2">
+      A personal note from the heart of this blog’s journey
+    </p>
+    <hr class="w-25 mx-auto mt-4 border-primary opacity-50" />
+  </header>
+
+  <!-- Image First -->
+  <div class="text-center mb-5">
+    {% load static %}
+    <img
+      src="{% static 'blog/images/about.jpg' %}"
+      alt="Author"
+      class="img-fluid shadow-lg rounded mb-2"
+      loading="lazy"
+      style="width: 650px; height: 300px; object-fit: cover"
+    />
+  </div>
+
+  <!-- Content Second -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+      <div class="bg-white p-4 p-md-5 rounded-4 shadow border">
+        <h3 class="fw-semibold text-primary mb-3">Welcome to My Blog</h3>
+        <p class="fs-5 text-secondary" style="text-align: justify">
+          {{ about_content }}
+        </p>
+
+        <div class="row text-center mt-4">
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="border rounded-3 p-3 shadow-sm bg-light">
+              <h4 class="fw-bold text-primary mb-1">10+</h4>
+              <p class="mb-0 text-muted small">Projects Shared</p>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="border rounded-3 p-3 shadow-sm bg-light">
+              <h4 class="fw-bold text-primary mb-1">500+</h4>
+              <p class="mb-0 text-muted small">Blog Readers</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="border rounded-3 p-3 shadow-sm bg-light">
+              <h4 class="fw-bold text-primary mb-1">24/7</h4>
+              <p class="mb-0 text-muted small">Always Learning</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 text-center">
+          <p class="text-muted fst-italic mb-0">
+            "Blogging isn't just writing—it's connecting, sharing, and growing
+            together."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
